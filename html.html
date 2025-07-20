@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pure CSS E-commerce Product</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .product-card {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 320px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .product-card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  }
+
+  .product-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .product-details {
+    padding: 20px;
+  }
+
+  .product-title {
+    margin: 0 0 8px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #222;
+  }
+
+  .product-price {
+    color: #e63946;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .options {
+    margin-bottom: 20px;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    display: inline-block;
+    color: #555;
+  }
+
+  .color-options, .size-options {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Color selector circles */
+  .color-option {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="radio"][name="color"]:checked + label.color-option {
+    border-color: #1d3557;
+  }
+
+  /* Colors */
+  .color-red { background: #e63946; }
+  .color-green { background: #2a9d8f; }
+  .color-blue { background: #457b9d; }
+
+  /* Size buttons */
+  input[type="radio"][name="size"] {
+    display: none;
+  }
+  input[type="radio"][name="size"]:checked + label.size-option {
+    background: #1d3557;
+    color: #fff;
+    border-color: #1d3557;
+  }
+  .size-option {
+    padding: 6px 14px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    user-select: none;
+  }
+  .size-option:hover {
+    border-color: #1d3557;
+  }
+
+  .add-cart-btn {
+    width: 100%;
+    padding: 14px 0;
+    background-color: #1d3557;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .add-cart-btn:hover {
+    background-color: #457b9d;
+  }
+</style>
+</head>
+<body>
+
+<div class="product-card">
+  <img class="product-image" src="https://images.unsplash.com/photo-1602524816559-f592d3fcbc26?auto=format&fit=crop&w=400&q=80" alt="Stylish Sneakers" />
+  <div class="product-details">
+    <h2 class="product-title">Stylish Sneakers</h2>
+    <p class="product-price">$89.99</p>
+
+    <div class="options">
+      <div>
+        <span class="label">Color</span>
+        <div class="color-options">
+          <input type="radio" id="color-red" name="color" checked />
+          <label for="color-red" class="color-option color-red"></label>
+
+          <input type="radio" id="color-green" name="color" />
+          <label for="color-green" class="color-option color-green"></label>
+
+          <input type="radio" id="color-blue" name="color" />
+          <label for="color-blue" class="color-option color-blue"></label>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <span class="label">Size</span>
+        <div class="size-options">
+          <input type="radio" id="size-7" name="size" />
+          <label for="size-7" class="size-option">7</label>
+
+          <input type="radio" id="size-8" name="size" checked />
+          <label for="size-8" class="size-option">8</label>
+
+          <input type="radio" id="size-9" name="size" />
+          <label for="size-9" class="size-option">9</label>
+        </div>
+      </div>
+    </div>
+
+    <button class="add-cart-btn" type="button">Add to Cart</button>
+  </div>
+</div>
+
+</body>
+</html>
