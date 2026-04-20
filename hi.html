@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Network VLAN Simulator</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+
+    h1 { margin-top: 20px; }
+
+    .network {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    .device {
+      background: #1e293b;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 10px;
+      width: 150px;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+
+    .link {
+      width: 80px;
+      height: 4px;
+      background: #38bdf8;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background: #38bdf8;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    #log {
+      margin-top: 20px;
+      background: black;
+      padding: 10px;
+      height: 150px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .success { color: #22c55e; }
+    .fail { color: #ef4444; }
+    .info { color: #facc15; }
+  </style>
+</head>
+
+<body>
+
+<h1>🌐 VLAN Network Simulator</h1>
+
+<div class="network">
+
+  <div class="device">
+    <b>Router</b><br>
+    192.168.1.1<br>
+    VLAN10: 20.0.0.1
+  </div>
+
+  <div class="link"></div>
+
+  <div class="device">
+    <b>Switch</b><br>
+    Trunk Port<br>
+    VLAN 10
+  </div>
+
+  <div class="link"></div>
+
+  <div class="device">
+    <b>PC1</b><br>
+    20.0.0.2<br>
+    GW: 20.0.0.1
+  </div>
+
+  <div class="device">
+    <b>PC2</b><br>
+    20.0.0.3<br>
+    GW: 20.0.0.1
+  </div>
+
+</div>
+
+<hr>
+
+<h2>🔍 Ping Simulator</h2>
+
+<input id="src" placeholder="Source IP (20.0.0.2)">
+<input id="dst" placeholder="Destination IP (20.0.0.3)">
+<br>
+<button onclick="ping()">Send Ping</button>
+
+<div id="log"></div>
+
+<script>
+
+const devices = {
+  "20.0.0.2": { name: "PC1", vlan: 10, gateway: "20.0.0.1" },
+  "20.0.0.3": { name: "PC2", vlan: 10, gateway: "20.0.0.1" },
+  "20.0.0.1": { name: "Router VLAN10", vlan: 10 },
+  "192.168.1.1": { name: "Router Main" }
+};
+
+function log(msg, type="info") {
+  const logBox = document.getElementById("log");
+  const line = document.createElement("div");
+  line.className = type;
+  line.innerText = msg;
+  logBox.appendChild(line);
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+function ping() {
+  let src = document.getElementById("src").value.trim();
+  let dst = document.getElementById("dst").value.trim();
+
+  log("---- New Ping Request ----");
+
+  if (!devices[src]) {
+    log("Source IP not found ❌", "fail");
+    return;
+  }
+
+  if (!devices[dst]) {
+    log("Destination IP not found ❌", "fail");
+    return;
+  }
+
+  log(`Ping from ${src} → ${dst}`, "info");
+
+  setTimeout(() => {
+    // Same VLAN
+    if (devices[src].vlan === devices[dst].vlan) {
+      log("Switch forwards frame (VLAN 10) 🔀", "info");
+
+      setTimeout(() => {
+        log("Reply received ✅ (Same VLAN success)", "success");
+      }, 800);
+
+      return;
+    }
+
+    // Inter VLAN (via router)
+    if (devices[src].gateway === "20.0.0.1") {
+      log("Sending to default gateway (Router) 🛣️", "info");
+
+      setTimeout(() => {
+        log("Router processes packet 🔄", "info");
+
+        setTimeout(() => {
+          log("Reply received via Router ✅", "success");
+        }, 800);
+
+      }, 800);
+
+      return;
+    }
+
+    log("Ping failed ❌", "fail");
+
+  }, 500);
+}
+
+</script>
+
+</body>
+</html>
